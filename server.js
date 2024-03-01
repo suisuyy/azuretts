@@ -36,5 +36,5 @@ app.get('/synthesize/:text', (req, res) => {
     console.log("Now synthesizing to: " + audioFile);
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 7860;
 app.listen(port, () => console.log(`Server is running on port ${port}`));
