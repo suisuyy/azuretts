@@ -37,18 +37,25 @@
         }
     </style>
 </head>
+
 <body>
     <div>
         <h1>Text to Speech Converter</h1>
         <textarea id="text" placeholder="Enter text here"></textarea> <br>
+        <select id="voice">
+            <option value="de-DE-SeraphinaMultilingualNeural">de-DE-SeraphinaMultilingualNeural</option>
+            <option value="fr-FR-RemyMultilingualNeural">fr-FR-RemyMultilingualNeural</option>
+            <option value="zh-CN-XiaochenMultilingualNeural">zh-CN-XiaochenMultilingualNeural</option>
+        </select> <br>
+        <input id="customVoice" type="text" placeholder="Or type a voice name here"> <br>
         <button id="convert">Convert to Speech</button> <br>
         <audio id="audio" controls autoplay></audio>
     </div>
 
     <script>
-        function synthesizeSpeech(text) {
-            if (text) {
-                fetch('/synthesize/' + encodeURIComponent(text))
+        function synthesizeSpeech(text, voice) {
+            if (text && voice) {
+                fetch('/synthesize/' + encodeURIComponent(text) + '?voicename=' + encodeURIComponent(voice))
                     .then(response => response.blob())
                     .then(blob => {
                         var url = URL.createObjectURL(blob);
@@ -60,20 +67,14 @@
             }
         }
 
-        document.getElementById('text').addEventListener('change', function() {
-            synthesizeSpeech(this.value);
-        });
-
-        document.getElementById('text').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
-                synthesizeSpeech(this.value);
-            }
-        });
-
         document.getElementById('convert').addEventListener('pointerdown', function(e) {
             e.preventDefault();
-            synthesizeSpeech(document.getElementById('text').value);
+            var text = document.getElementById('text').value;
+            var voice = document.getElementById('customVoice').value || document.getElementById('voice').value;
+            synthesizeSpeech(text, voice);
         });
     </script>
 </body>
+
+
 </html>

@@ -1,1 +1,2 @@
+. .env
 node server.js

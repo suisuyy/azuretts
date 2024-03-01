@@ -15,7 +15,9 @@ app.get('/synthesize/:text', (req, res) => {
     const speechConfig = sdk.SpeechConfig.fromSubscription(process.env.SPEECH_KEY, process.env.SPEECH_REGION);
     const audioConfig = sdk.AudioConfig.fromAudioFileOutput(audioFile);
 
-    speechConfig.speechSynthesisVoiceName = "en-US-JennyMultilingualV2Neural"; 
+    const voice = req.query.voicename || "de-DE-SeraphinaMultilingualNeural";
+
+    speechConfig.speechSynthesisVoiceName = voice; 
 
     var synthesizer = new sdk.SpeechSynthesizer(speechConfig, audioConfig);
 
