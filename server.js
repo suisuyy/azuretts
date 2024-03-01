@@ -1,7 +1,10 @@
 const express = require('express');
+const cors = require('cors'); // Add this line
 const app = express();
 const sdk = require("microsoft-cognitiveservices-speech-sdk");
 const path = require('path');
+
+app.use(cors()); // Use cors middleware here
 
 // Serve static files from the "public" directory
 app.use(express.static(path.join(__dirname, 'public')));
