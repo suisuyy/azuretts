@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text to Speech</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+        }
+        textarea {
+            width: 300px;
+            height: 100px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Text to Speech Converter</h1>
+        <textarea id="text" placeholder="Enter text here"></textarea> <br>
+        <button id="convert">Convert to Speech</button> <br>
+        <audio id="audio" controls autoplay></audio>
+    </div>
+
+    <script>
+        function synthesizeSpeech(text) {
+            if (text) {
+                fetch('/synthesize/' + encodeURIComponent(text))
+                    .then(response => response.blob())
+                    .then(blob => {
+                        var url = URL.createObjectURL(blob);
+                        var audio = document.getElementById('audio');
+                        audio.src = url;
+                        audio.play();
+                    })
+                    .catch(console.error);
+            }
+        }
+
+        document.getElementById('text').addEventListener('change', function() {
+            synthesizeSpeech(this.value);
+        });
+
+        document.getElementById('text').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                synthesizeSpeech(this.value);
+            }
+        });
+
+        document.getElementById('convert').addEventListener('pointerdown', function(e) {
+            e.preventDefault();
+            synthesizeSpeech(document.getElementById('text').value);
+        });
+    </script>
+</body>
+</html>
