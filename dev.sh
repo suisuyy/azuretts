@@ -1,0 +1,2 @@
+. .env
+nodemon server.js
