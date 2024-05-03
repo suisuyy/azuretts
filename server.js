@@ -50,6 +50,8 @@ app.get('/tts/:text', (req, res) => {
     const audioFile = "audio.mp3";
     const speechConfig = sdk.SpeechConfig.fromSubscription(process.env.SPEECH_KEY, process.env.SPEECH_REGION);
     const audioConfig = sdk.AudioConfig.fromAudioFileOutput(audioFile);
+    audioConfig.speechSynthesisOutputFormat = sdk.SpeechSynthesisOutputFormat.Audio24Khz160KBitRateMonoMp3;
+
 
     const voice = req.query.voicename || "de-DE-SeraphinaMultilingualNeural";
 
